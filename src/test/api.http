@@ -1,0 +1,271 @@
+########################INGREDIENT TEST########################
+
+#####Create new ingredient with non-spicy peppers#####
+POST http://localhost:8080/ingredients
+Content-Type: application/x-www-form-urlencoded
+
+name=pepper&spicy=false&amount=10&veggie=true
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Edit ingredient#####
+PATCH http://localhost:8080/ingredients/bacon
+Content-Type: application/x-www-form-urlencoded
+
+name=bacon&spicy=false&amount=1&veggie=false
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Edit non-existing ingredient#####
+PATCH http://localhost:8080/ingredients/orange
+Content-Type: application/x-www-form-urlencoded
+
+name=bacon&spicy=false&amount=1&veggie=false
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 404, "Response status is not 404");
+});
+%}
+
+#####Delete ingredient#####
+DELETE http://localhost:8080/ingredients/pepper
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Delete non-existing ingredient#####
+DELETE http://localhost:8080/ingredients/milk
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 404, "Response status is not 404");
+});
+%}
+
+
+#####Get paged ingredients, sorted#####
+GET http://localhost:8080/ingredients
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+GET http://localhost:8080/ingredients
+page:1
+size:2
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+GET http://localhost:8080/ingredients
+size:7
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Get ingredient#####
+GET http://localhost:8080/ingredients/garlic
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Get ingredient that does not exist#####
+GET http://localhost:8080/ingredients/orange
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 404, "Response status is not 404");
+});
+%}
+
+#####Get spicy ingredients#####
+GET http://localhost:8080/ingredients?spicy=true
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Get all pizzas with given ingredient#####
+GET http://localhost:8080/ingredients/oregano/pizzas
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Get all pizzas with given ingredient that does not exist#####
+GET http://localhost:8080/ingredients/juice/pizzas
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 404, "Response status is not 404");
+});
+%}
+
+
+#####Create new ingredient with spicy peppers#####
+POST http://localhost:8080/ingredients
+Content-Type: application/x-www-form-urlencoded
+
+name=pepper&spicy=true&amount=10&veggie=true
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 400, "Response status is not 400");
+});
+%}
+
+
+#####Create ingredient that already exists#####
+POST http://localhost:8080/ingredients
+Content-Type: application/x-www-form-urlencoded
+
+name=garlic&spicy=true&amount=10&veggie=true
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 400, "Response status is not 400");
+});
+%}
+
+
+########################PIZZA TEST########################
+
+
+#####Create new pizza#####
+POST http://localhost:8080/pizzas
+Content-Type: application/x-www-form-urlencoded
+
+name=Margherita2&description=dasdsad&ingredients=tomato sauce&ingredients=mozzarella&ingredients=mushrooms
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 201, "Response status is not 201");
+});
+%}
+
+#####Edit existing pizza#####
+PUT http://localhost:8080/pizzas/Margherita2
+Content-Type: application/x-www-form-urlencoded
+
+name=Margherita2&description=changed description&ingredients=tomato sauce&ingredients=mozzarella&ingredients=mushrooms
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Edit non-existing pizza#####
+PUT http://localhost:8080/pizzas/RandomPizza
+Content-Type: application/x-www-form-urlencoded
+
+name=Margherita2&description=changed description&ingredients=tomato sauce&ingredients=mozzarella&ingredients=mushrooms
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 404, "Response status is not 404");
+});
+%}
+
+#####Delete existing pizza#####
+DELETE http://localhost:8080/pizzas/Margherita2
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Delete non-existing pizza#####
+DELETE http://localhost:8080/pizzas/RandomPizza
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 404, "Response status is not 404");
+});
+%}
+
+#####Get all pizzas#####
+GET http://localhost:8080/pizzas
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Get existing pizza#####
+GET http://localhost:8080/pizzas/Marinara
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Get non-existing pizza#####
+GET http://localhost:8080/pizzas/RandomPizza
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 404, "Response status is not 404");
+});
+%}
+
+#####Get all pizzas with number of ingredients less than given number#####
+GET http://localhost:8080/pizzas?totalIngredients=4
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Get same ingredients from two pizzas#####
+GET http://localhost:8080/pizzas/compare?pizza1=Margherita&pizza2=Carbonara
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+#####Get same ingredients from two pizzas with query#####
+GET http://localhost:8080/pizzas/compare/query?pizza1=Margherita&pizza2=Carbonara
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###

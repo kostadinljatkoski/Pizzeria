@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.css" type="text/css">
+        <script src="bootstrap-4.3.1-dist/js/bootstrap.bundle.js"></script>
+        <title>Pizza Order page - Welcome and choose pizza</title>
+        <style type = "text/css">
+            body {
+                width: 800px;
+                margin: auto;
+            }
+            table {
+                width:100%;
+            }
+            table, td, th {
+                border: 1px solid black;
+                padding:3px 2px;
+            }
+            section {
+                float: left;
+                margin: 0 1.5%;
+                width: 63%;
+            }
+            aside {
+                float: right;
+                margin: 0 1.5%;
+                width: 30%;
+            }
+            input[type="radio"], label {
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Pizza Order page - Select Pizza Size </h1>
+        </header>
+        <section>
+            <h2>Choose pizza size:</h2>
+            <form th:action="@{/PizzaOrder.do}" method="get">
+                <div class="form-group">
+                    <div class="form-check">
+                        <input id="item1" class="form-check-input" type="radio" name="pizza_size" value="Small">
+                        <label for="item1" class="form-check-label">Small</label>
+                    </div>
+                    <div class="form-check">
+                        <input id="item2" class="form-check-input" type="radio" name="pizza_size" value="Medium">
+                        <label for="item2" class="form-check-label">Medium</label>
+                    </div>
+                    <div class="form-check">
+                        <input id="item3" class="form-check-input" type="radio" name="pizza_size" value="Big">
+                        <label for="item3" class="form-check-label">Big</label>
+                    </div>
+                    <div class="form-check">
+                        <input id="item4" class="form-check-input" type="radio" name="pizza_size" value="Family">
+                        <label for="item4" class="form-check-label">Family</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </div>
+            </form>
+        </section>
+        <aside>
+            <table class="table table-bordered">
+                <tr>
+                    <th colspan="2">
+                        Your Order Status
+                    </th>
+                </tr>
+                <tr>
+                    <td><b>Pizza Type </b></td>
+                    <td th:text="${pizzaType}"></td>
+                </tr>
+            </table>
+        </aside>
+        <script>
+            document.getElementById("item1").setAttribute("checked","checked");
+        </script>
+    </body>
+</html>

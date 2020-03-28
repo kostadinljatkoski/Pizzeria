@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.css" type="text/css">
+        <script src="bootstrap-4.3.1-dist/js/bootstrap.bundle.js"></script>
+        <title>Pizza Order page - Welcome and choose pizza</title>
+        <style type="text/css">
+            body {
+                width: 800px;
+                margin: auto;
+            }
+            input[type="radio"], label {
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Welcome to our Pizza Delivery App</h1>
+        </header>
+        <main>
+            <h2>Choose pizza:</h2>
+            <form th:action="@{/}" method="post">
+                <div class="form-group">
+                    <th:block th:each="pizza, iter : ${pizzas}">
+                        <div class="form-check">
+                            <input th:selected="${iter.count}" th:id="${iter.count}" class="form-check-input" type="radio" name="pizza" th:value="${pizza.name}">
+                            <label th:for="${iter.count}" class="form-check-label" th:text="${pizza.name} + ' (' + ${pizza.description} + ')'"></label>
+                        </div>
+                    </th:block>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </div>
+            </form>
+        </main>
+        <script>
+            document.getElementById("1").setAttribute("checked","checked");
+        </script>
+    </body>
+</html>
